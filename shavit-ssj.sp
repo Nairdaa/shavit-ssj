@@ -39,7 +39,7 @@ bool gB_HeightDiff[MAXPLAYERS+1];
 bool gB_GainStats[MAXPLAYERS+1] = {true, ...};
 bool gB_Efficiency[MAXPLAYERS+1];
 bool gB_StrafeSync[MAXPLAYERS+1];
-bool gB_TouchesWall[MAXPLAYERS+1];								   
+bool gB_TouchesWall[MAXPLAYERS+1];
 
 int gI_TicksOnGround[MAXPLAYERS+1];
 int gI_TouchTicks[MAXPLAYERS+1];
@@ -57,7 +57,7 @@ float gF_RawGain[MAXPLAYERS+1];
 float gF_Trajectory[MAXPLAYERS+1];
 float gF_TraveledDistance[MAXPLAYERS+1][3];
 float gF_SpeedLoss[MAXPLAYERS+1];
-float gF_OldVelocity[MAXPLAYERS+1];							   
+float gF_OldVelocity[MAXPLAYERS+1];
 
 float gF_Tickrate = 0.01;
 
@@ -71,14 +71,14 @@ chatstrings_t gS_ChatStrings;
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
 	gB_Late = late;
-
+	
 	return APLRes_Success;
 }
 
 public void OnPluginStart()
 {
 	RegConsoleCmd("sm_ssj", Command_SSJ, "Open the Speed @ Sixth Jump menu.");
-
+	
 	gH_CookieEnabled = RegClientCookie("ssj_enabled", "ssj_enabled", CookieAccess_Public);
 	gH_CookieUsageMode = RegClientCookie("ssj_displaymode", "ssj_displaymode", CookieAccess_Public);
 	gH_CookieUsageRepeat = RegClientCookie("ssj_displayrepeat", "ssj_displayrepeat", CookieAccess_Public);
@@ -89,9 +89,9 @@ public void OnPluginStart()
 	gH_CookieEfficiency = RegClientCookie("ssj_efficiency", "ssj_efficiency", CookieAccess_Public);
 	gH_CookieStrafeSync = RegClientCookie("ssj_strafesync", "ssj_strafesync", CookieAccess_Public);
 	gH_CookieDefaultsSet = RegClientCookie("ssj_defaults", "ssj_defaults", CookieAccess_Public);
-
+	
 	HookEvent("player_jump", Player_Jump);
-
+	
 	for(int i = 1; i <= MaxClients; i++)
 	{
 		if(IsClientInGame(i))
@@ -100,19 +100,19 @@ public void OnPluginStart()
 			OnClientCookiesCached(i);
 		}
 	}
-
+	
 	if(gB_Late)
 	{
 		Shavit_OnChatConfigLoaded();
 	}
-
+	
 	gB_Shavit = LibraryExists("shavit");
 	gEV_Type = GetEngineVersion();
 }
 
 stock bool IsValidClientIndex(int client)
 {
-    return (0 < client <= MaxClients);
+	return (0 < client <= MaxClients);
 }
 
 public void OnLibraryAdded(const char[] name)
@@ -148,10 +148,10 @@ public void Shavit_OnChatConfigLoaded()
 
 public void OnClientCookiesCached(int client)
 {
-	char[] sCookie = new char[8];
-
+	char sCookie[8];
+	
 	GetClientCookie(client, gH_CookieDefaultsSet, sCookie, 8);
-
+	
 	if(StringToInt(sCookie) == 0)
 	{
 		SetCookie(client, gH_CookieEnabled, true);
@@ -166,31 +166,31 @@ public void OnClientCookiesCached(int client)
 		
 		SetCookie(client, gH_CookieDefaultsSet, true);
 	}
-
+	
 	GetClientCookie(client, gH_CookieEnabled, sCookie, 8);
 	gB_Enabled[client] = view_as<bool>(StringToInt(sCookie));
-
+	
 	GetClientCookie(client, gH_CookieUsageMode, sCookie, 8);
 	gI_UsageMode[client] = StringToInt(sCookie);
-
+	
 	GetClientCookie(client, gH_CookieUsageRepeat, sCookie, 8);
 	gB_UsageRepeat[client] = view_as<bool>(StringToInt(sCookie));
-
+	
 	GetClientCookie(client, gH_CookieCurrentSpeed, sCookie, 8);
 	gB_CurrentSpeed[client] = view_as<bool>(StringToInt(sCookie));
-
+	
 	GetClientCookie(client, gH_CookieFirstJump, sCookie, 8);
 	gB_FirstJump[client] = view_as<bool>(StringToInt(sCookie));
-
+	
 	GetClientCookie(client, gH_CookieHeightDiff, sCookie, 8);
 	gB_HeightDiff[client] = view_as<bool>(StringToInt(sCookie));
-
+	
 	GetClientCookie(client, gH_CookieGainStats, sCookie, 8);
 	gB_GainStats[client] = view_as<bool>(StringToInt(sCookie));
-
+	
 	GetClientCookie(client, gH_CookieEfficiency, sCookie, 8);
 	gB_Efficiency[client] = view_as<bool>(StringToInt(sCookie));
-
+	
 	GetClientCookie(client, gH_CookieStrafeSync, sCookie, 8);
 	gB_StrafeSync[client] = view_as<bool>(StringToInt(sCookie));
 }
@@ -208,7 +208,7 @@ public void OnClientPutInServer(int client)
 	gI_TicksOnGround[client] = 0;
 	gI_StrafeCount[client] = 0;
 	gI_OldSSJTarget[client] = 0;
-
+	
 	SDKHook(client, SDKHook_Touch, OnTouch);
 }
 
@@ -223,36 +223,36 @@ public Action OnTouch(int client, int entity)
 int GetHUDTarget(int client)
 {
 	int target = client;
-
+	
 	if(IsClientObserver(client))
 	{
 		int iObserverMode = GetEntProp(client, Prop_Send, "m_iObserverMode");
-
+		
 		if(iObserverMode >= 3 && iObserverMode <= 5)
 		{
 			int iTarget = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
-
+			
 			if(!IsFakeClient(iTarget))
 			{
 				target = iTarget;
 			}
 		}
 	}
-
+	
 	return target;
 }
 
 void UpdateStats(int client)
 {
 	int target = client; //GetHUDTarget(client);
-
+	
 	float velocity[3];
 	GetEntPropVector(target, Prop_Data, "m_vecAbsVelocity", velocity);
 	velocity[2] = 0.0;
-
+	
 	float origin[3];
 	GetClientAbsOrigin(target, origin);
-
+	
 	gF_RawGain[client] = 0.0;
 	gI_StrafeTick[client] = 0;
 	gI_SyncedTick[client] = 0;
@@ -267,40 +267,37 @@ void UpdateStats(int client)
 public void Player_Jump(Event event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
-
+	
 	if(IsFakeClient(client) || (gI_Jump[client] > 0 && gI_StrafeTick[client] == 0))
 	{
 		return;
 	}
-
+	
 	gI_Jump[client]++;
-
+	
 	//bool shouldUpdateStats = false;
 	//bool printedStats = false;
 	for(int i = 1; i <= MaxClients; i++)
 	{
 		if (!gB_Enabled[i])
+		{
 			continue;
-
-		if (!IsClientInGame(i))
-			continue;
-
-		if (GetHUDTarget(i) != client)
-			continue;
+		}
 		
-		//printedStats = SSJ_PrintStats(i, client);
+		if (!IsClientInGame(i))
+		{
+			continue;
+		}
+		
+		if (GetHUDTarget(i) != client)
+		{
+			continue;
+		}
+		
 		SSJ_PrintStats(i, client);
-
-		//if (printedStats)
-		//{
-		//	shouldUpdateStats = true;
-		//}
 	}
-
-	//if (shouldUpdateStats || gI_Jump[client] == 1)
-	//{
+	
 	UpdateStats(client);
-	//}
 }
 
 public Action Command_SSJ(int client, int args)
@@ -308,10 +305,10 @@ public Action Command_SSJ(int client, int args)
 	if(client == 0)
 	{
 		ReplyToCommand(client, "[SM] This command can only be used in-game.");
-
+		
 		return Plugin_Handled;
 	}
-
+	
 	return ShowSSJMenu(client);
 }
 
@@ -319,13 +316,13 @@ Action ShowSSJMenu(int client, int item = 0)
 {
 	Menu menu = new Menu(SSJ_MenuHandler);
 	menu.SetTitle("Speed @ Sixth Jump\n ");
-
+	
 	menu.AddItem("usage", (gB_Enabled[client])? "[x] Enabled":"[ ] Enabled");
-
-	char[] sMenu = new char[64];
+	
+	char sMenu[64];
 	FormatEx(sMenu, 64, "[%d] Jump", gI_UsageMode[client]);
+	
 	menu.AddItem("mode", sMenu);
-
 	menu.AddItem("repeat", (gB_UsageRepeat[client])? "[x] Repeat":"[ ] Repeat");
 	menu.AddItem("curspeed", (gB_CurrentSpeed[client])? "[x] Current speed":"[ ] Current speed");
 	menu.AddItem("firstjump", (gB_FirstJump[client])? "[x] First jump":"[ ] First jump");
@@ -333,9 +330,10 @@ Action ShowSSJMenu(int client, int item = 0)
 	menu.AddItem("gain", (gB_GainStats[client])? "[x] Gain percentage":"[ ] Gain percentage");
 	menu.AddItem("efficiency", (gB_Efficiency[client])? "[x] Strafe efficiency":"[ ] Strafe efficiency");
 	menu.AddItem("sync", (gB_StrafeSync[client])? "[x] Synchronization":"[ ] Synchronization");
+	
 	menu.ExitButton = true;
 	menu.DisplayAt(client, item, 0);
-
+	
 	return Plugin_Handled;
 }
 
@@ -350,49 +348,49 @@ public int SSJ_MenuHandler(Menu menu, MenuAction action, int param1, int param2)
 				gB_Enabled[param1] = !gB_Enabled[param1];
 				SetCookie(param1, gH_CookieEnabled, gB_Enabled[param1]);
 			}
-
+			
 			case 1:
 			{
 				gI_UsageMode[param1] = (gI_UsageMode[param1] % 9) + 1;
 				SetCookie(param1, gH_CookieUsageMode, gI_UsageMode[param1]);
 			}
-
+			
 			case 2:
 			{
 				gB_UsageRepeat[param1] = !gB_UsageRepeat[param1];
 				SetCookie(param1, gH_CookieUsageRepeat, gB_UsageRepeat[param1]);
 			}
-
+			
 			case 3:
 			{
 				gB_CurrentSpeed[param1] = !gB_CurrentSpeed[param1];
 				SetCookie(param1, gH_CookieCurrentSpeed, gB_CurrentSpeed[param1]);
 			}
-
+			
 			case 4:
 			{
 				gB_FirstJump[param1] = !gB_FirstJump[param1];
 				SetCookie(param1, gH_CookieFirstJump, gB_FirstJump[param1]);
 			}
-
+			
 			case 5:
 			{
 				gB_HeightDiff[param1] = !gB_HeightDiff[param1];
 				SetCookie(param1, gH_CookieHeightDiff, gB_HeightDiff[param1]);
 			}
-
+			
 			case 6:
 			{
 				gB_GainStats[param1] = !gB_GainStats[param1];
 				SetCookie(param1, gH_CookieGainStats, gB_GainStats[param1]);
 			}
-
+			
 			case 7:
 			{
 				gB_Efficiency[param1] = !gB_Efficiency[param1];
 				SetCookie(param1, gH_CookieEfficiency, gB_Efficiency[param1]);
 			}
-
+			
 			case 8:
 			{
 				gB_StrafeSync[param1] = !gB_StrafeSync[param1];
@@ -400,15 +398,15 @@ public int SSJ_MenuHandler(Menu menu, MenuAction action, int param1, int param2)
 			}
 			
 		}
-
+		
 		ShowSSJMenu(param1, GetMenuSelectionPosition());
 	}
-
+	
 	else if(action == MenuAction_End)
 	{
 		delete menu;
 	}
-
+	
 	return 0;
 }
 
@@ -416,61 +414,61 @@ void SSJ_GetStats(int client, float vel[3], float angles[3])
 {
 	float velocity[3];
 	GetEntPropVector(client, Prop_Data, "m_vecAbsVelocity", velocity);
-
+	
 	gI_StrafeTick[client]++;
-
+	
 	float speedmulti = GetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue");
-
+	
 	gF_TraveledDistance[client][0] += velocity[0] * gF_Tickrate * speedmulti;
 	gF_TraveledDistance[client][1] += velocity[1] * gF_Tickrate * speedmulti;
 	velocity[2] = 0.0;
-
+	
 	gF_Trajectory[client] += GetVectorLength(velocity) * gF_Tickrate * speedmulti;
-
+	
 	float fore[3];
 	float side[3];
 	GetAngleVectors(angles, fore, side, NULL_VECTOR);
-
+	
 	fore[2] = 0.0;
 	NormalizeVector(fore, fore);
-
+	
 	side[2] = 0.0;
 	NormalizeVector(side, side);
-
+	
 	float wishvel[3];
 	float wishdir[3];
-
+	
 	for(int i = 0; i < 2; i++)
 	{
 		wishvel[i] = fore[i] * vel[0] + side[i] * vel[1];
 	}
-
+	
 	float wishspeed = NormalizeVector(wishvel, wishdir);
 	float maxspeed = GetEntPropFloat(client, Prop_Send, "m_flMaxspeed");
-
+	
 	if(maxspeed != 0.0 && wishspeed > maxspeed)
 	{
 		wishspeed = maxspeed;
 	}
-
+	
 	if(wishspeed > 0.0)
 	{
 		float wishspd = (wishspeed > 30.0)? 30.0:wishspeed;
 		float currentgain = GetVectorDotProduct(velocity, wishdir);
 		float gaincoeff = 0.0;
-
+		
 		if(currentgain < 30.0)
 		{
 			gI_SyncedTick[client]++;
 			gaincoeff = (wishspd - FloatAbs(currentgain)) / wishspd;
 		}
-
+		
 		if(gB_TouchesWall[client] && gI_TouchTicks[client] && gaincoeff > 0.5)
 		{
 			gaincoeff -= 1.0;
 			gaincoeff = FloatAbs(gaincoeff);
 		}
-
+		
 		gF_RawGain[client] += gaincoeff;
 	}
 }
@@ -486,17 +484,17 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		{
 			gI_StrafeCount[client]++;
 		}
-	
+		
 		if((gI_ButtonCache[client] & IN_MOVELEFT) != IN_MOVELEFT && (buttons & IN_MOVELEFT) == IN_MOVELEFT)
 		{
 			gI_StrafeCount[client]++;
 		}
-	
+		
 		if((gI_ButtonCache[client] & IN_BACK) != IN_BACK && (buttons & IN_BACK) == IN_BACK)
 		{
 			gI_StrafeCount[client]++;
 		}
-	
+		
 		if((gI_ButtonCache[client] & IN_MOVERIGHT) != IN_MOVERIGHT && (buttons & IN_MOVERIGHT) == IN_MOVERIGHT)
 		{
 			gI_StrafeCount[client]++;
@@ -507,7 +505,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	{
 		gF_SpeedLoss[client] += (FloatAbs(speed - gF_OldVelocity[client]));
 	}
-	
 	
 	if(flags & FL_ONGROUND == FL_ONGROUND)
 	{
@@ -522,37 +519,37 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			gF_SpeedLoss[client] = 0.0;
 			gF_TraveledDistance[client] = NULL_VECTOR;
 		}
-
+		
 		if((buttons & IN_JUMP) > 0 && gI_TicksOnGround[client] == 1)
 		{
 			SSJ_GetStats(client, vel, angles);
 			gI_TicksOnGround[client] = 0;
 		}
 	}
-
+	
 	else
 	{
 		MoveType movetype = GetEntityMoveType(client);
-
+		
 		if(movetype != MOVETYPE_NONE && movetype != MOVETYPE_NOCLIP && movetype != MOVETYPE_LADDER && GetEntProp(client, Prop_Data, "m_nWaterLevel") < 2)
 		{
 			SSJ_GetStats(client, vel, angles);
 		}
-
+		
 		gI_TicksOnGround[client] = 0;
 	}
-
+	
 	if(gB_TouchesWall[client])
 	{
 		gI_TouchTicks[client]++;
 		gB_TouchesWall[client] = false;
 	}
-
+	
 	else
 	{
 		gI_TouchTicks[client] = 0;
 	}
-
+	
 	gI_ButtonCache[client] = buttons;
 	gF_OldVelocity[client] = speed;
 	return Plugin_Continue;
@@ -560,13 +557,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 bool SSJ_PrintStats(int client, int target)
 {
-	/*if(gI_OldSSJTarget[client] != client)
-	{
-		UpdateStats(client);
-		gI_OldSSJTarget[target] = target;
-	}
-	*/
-
 	if(gI_Jump[target] == 1)
 	{
 		if(!gB_FirstJump[client] && gI_UsageMode[client] != 1)
@@ -574,7 +564,7 @@ bool SSJ_PrintStats(int client, int target)
 			return false;
 		}
 	}
-
+	
 	else if(gB_UsageRepeat[client])
 	{
 		if(gI_Jump[target] % gI_UsageMode[client] != 0)
@@ -582,40 +572,40 @@ bool SSJ_PrintStats(int client, int target)
 			return false;
 		}
 	}
-
+	
 	else if(gI_Jump[target] != gI_UsageMode[client])
 	{
 		return false;
 	}
-
+	
 	float velocity[3];
 	GetEntPropVector(target, Prop_Data, "m_vecAbsVelocity", velocity);
 	velocity[2] = 0.0;
-
+	
 	float origin[3];
 	GetClientAbsOrigin(target, origin);
-
+	
 	float coeffsum = gF_RawGain[target];
 	coeffsum /= gI_StrafeTick[target];
 	coeffsum *= 100.0;
-
+	
 	float distance = GetVectorLength(gF_TraveledDistance[target]);
-
+	
 	if(distance > gF_Trajectory[target])
 	{
 		distance = gF_Trajectory[target];
 	}
-
+	
 	float efficiency = 0.0;
-
+	
 	if(distance > 0.0)
 	{
 		efficiency = coeffsum * distance / gF_Trajectory[target];
 	}
-
+	
 	coeffsum = RoundToFloor(coeffsum * 100.0 + 0.5) / 100.0;
 	efficiency = RoundToFloor(efficiency * 100.0 + 0.5) / 100.0;
-
+	
 	float time = Shavit_GetClientTime(target);
 	
 	char sTime[32];
@@ -623,24 +613,24 @@ bool SSJ_PrintStats(int client, int target)
 	
 	char sMessage[192];
 	FormatEx(sMessage, 192, "J: %s%i", gS_ChatStrings.sVariable, gI_Jump[target]);
-
+	
 	if(gB_CurrentSpeed[client])
 	{
 		Format(sMessage, 192, "%s %s| Spd: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(GetVectorLength(velocity)));
 	}
-
+	
 	if(gI_Jump[target] > 1)
 	{
 		if(gB_HeightDiff[client])
 		{
 			Format(sMessage, 192, "%s %s| H Δ: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(origin[2]) - RoundToFloor(gF_InitialHeight[target]));
 		}
-
+		
 		if(gB_GainStats[client])
 		{
 			Format(sMessage, 192, "%s %s| Gn: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, coeffsum);
 		}
-
+		
 		if(gB_StrafeSync[client])
 		{
 			Format(sMessage, 192, "%s %s| Snc: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, 100.0 * gI_SyncedTick[target] / gI_StrafeTick[target]);
@@ -651,23 +641,23 @@ bool SSJ_PrintStats(int client, int target)
 			Format(sMessage, 192, "%s %s| Eff: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, efficiency);
 		}
 	}
-
+	
 	PrintToClient(client, "%s", sMessage);
-
+	
 	return true;
 }
 
 void PrintToClient(int client, const char[] message, any ...)
 {
-	char[] buffer = new char[300];
+	char buffer[300];
 	VFormat(buffer, 300, message, 3);
-
+	
 	if(gB_Shavit)
 	{
 		Shavit_StopChatSound();
 		Shavit_PrintToChat(client, "%s", buffer); // Thank you, GAMMACASE
 	}
-
+	
 	else
 	{
 		PrintToChat(client, "%s%s%s%s", (gEV_Type == Engine_CSGO)?" ":"", gS_ChatStrings.sPrefix, gS_ChatStrings.sText, buffer);
@@ -676,9 +666,9 @@ void PrintToClient(int client, const char[] message, any ...)
 
 void SetCookie(int client, Handle hCookie, int n)
 {
-	char[] sCookie = new char[8];
+	char sCookie[8];
 	IntToString(n, sCookie, 8);
-
+	
 	SetClientCookie(client, hCookie, sCookie);
 }
 
