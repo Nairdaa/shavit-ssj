@@ -665,7 +665,7 @@ void PrintToClient(int client, const char[] message, any ...)
 	if(gB_Shavit)
 	{
 		Shavit_StopChatSound();
-		Shavit_PrintToChat(client, "%s", buffer);
+		Shavit_PrintToChat(client, "%s", buffer); // Thank you, GAMMACASE
 	}
 
 	else
