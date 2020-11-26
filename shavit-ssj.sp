@@ -665,12 +665,12 @@ void PrintToClient(int client, const char[] message, any ...)
 	if(gB_Shavit)
 	{
 		Shavit_StopChatSound();
-		Shavit_PrintToChat(client, "%s", buffer); // Thank you, GAMMACASE!
+		Shavit_PrintToChat(client, "%s", buffer);
 	}
 
 	else
 	{
-		PrintToChat(client, "%s%s%s", (gEV_Type == Engine_CSGO)?" ":"", gS_ChatStrings.sPrefix, gS_ChatStrings.sText, buffer);
+		PrintToChat(client, "%s%s%s%s", (gEV_Type == Engine_CSGO)?" ":"", gS_ChatStrings.sPrefix, gS_ChatStrings.sText, buffer);
 	}
 }
 
