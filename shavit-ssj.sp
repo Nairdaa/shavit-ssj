@@ -138,6 +138,7 @@ public void OnMapStart()
 
 public void Shavit_OnChatConfigLoaded()
 {
+	Shavit_GetChatStrings(sMessagePrefix, gS_ChatStrings.sPrefix, sizeof(chatstrings_t::sPrefix));
 	Shavit_GetChatStrings(sMessageText, gS_ChatStrings.sText, sizeof(chatstrings_t::sText));
 	Shavit_GetChatStrings(sMessageWarning, gS_ChatStrings.sWarning, sizeof(chatstrings_t::sWarning));
 	Shavit_GetChatStrings(sMessageVariable, gS_ChatStrings.sVariable, sizeof(chatstrings_t::sVariable));
@@ -617,11 +618,11 @@ bool SSJ_PrintStats(int client, int target)
 
 	float time = Shavit_GetClientTime(target);
 	
-	char[] sTime = new char[32];
+	char sTime[32];
 	FormatSeconds(time, sTime, 32, true);
 	
-	char[] sMessage = new char[192];
-	FormatEx(sMessage, 192, "J: %s%i", gS_ChatStrings.sVariable2, gI_Jump[target]);
+	char sMessage[192];
+	FormatEx(sMessage, 192, "J: %s%i", gS_ChatStrings.sVariable, gI_Jump[target]);
 
 	if(gB_CurrentSpeed[client])
 	{
@@ -664,12 +665,12 @@ void PrintToClient(int client, const char[] message, any ...)
 	if(gB_Shavit)
 	{
 		Shavit_StopChatSound();
-		Shavit_PrintToChat(client, "%s", message);
+		Shavit_PrintToChat(client, "%s", buffer); // Thank you, GAMMACASE!
 	}
 
 	else
 	{
-		PrintToChat(client, "%s%s%s%s", (gEV_Type == Engine_CSGO)?" ":"", gS_ChatStrings.sPrefix, gS_ChatStrings.sText, message);
+		PrintToChat(client, "%s%s%s", (gEV_Type == Engine_CSGO)?" ":"", gS_ChatStrings.sPrefix, gS_ChatStrings.sText, buffer);
 	}
 }
 
