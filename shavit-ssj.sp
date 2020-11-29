@@ -247,7 +247,7 @@ int GetHUDTarget(int client)
 		{
 			int iTarget = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
 
-			if (!IsFakeClient(iTarget))
+			if(!IsFakeClient(iTarget))
 			{
 				target = iTarget;
 			}
@@ -294,12 +294,12 @@ public void Player_Jump(Event event, const char[] name, bool dontBroadcast)
 	//bool printedStats = false;
 	for (int i = 1; i <= MaxClients; i++)
 	{
-		if (!g_bEnabled[i])
+		if(!g_bEnabled[i])
 		{
 			continue;
 		}
 
-		if (!IsClientInGame(i))
+		if(!IsClientInGame(i))
 		{
 			continue;
 		}
@@ -588,7 +588,7 @@ bool SSJ_PrintStats(int client, int target)
 {
 	if(g_iJump[target] == 1)
 	{
-		if (!g_bFirstJump[client] && g_iUsageMode[client] != 1)
+		if(!g_bFirstJump[client] && g_iUsageMode[client] != 1)
 		{
 			return false;
 		}
