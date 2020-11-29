@@ -21,6 +21,7 @@ public Plugin myinfo =
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Handle g_hCookieEnabled = null;
 Handle g_hCookieUsageMode = null;
 Handle g_hCookieUsageRepeat = null;
@@ -68,6 +69,8 @@ float g_fTickrate = 0.01;
 =======
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 Handle gH_CookieEnabled = null;
 Handle gH_CookieUsageMode = null;
 Handle gH_CookieUsageRepeat = null;
@@ -110,6 +113,9 @@ float gF_OldVelocity[MAXPLAYERS+1];
 
 float gF_Tickrate = 0.01;
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -134,6 +140,7 @@ public void OnPluginStart()
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	g_hCookieEnabled = RegClientCookie("ssj_enabled", "ssj_enabled", CookieAccess_Public);
 	g_hCookieUsageMode = RegClientCookie("ssj_displaymode", "ssj_displaymode", CookieAccess_Public);
 	g_hCookieUsageRepeat = RegClientCookie("ssj_displayrepeat", "ssj_displayrepeat", CookieAccess_Public);
@@ -149,6 +156,8 @@ public void OnPluginStart()
 =======
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 	gH_CookieEnabled = RegClientCookie("ssj_enabled", "ssj_enabled", CookieAccess_Public);
 	gH_CookieUsageMode = RegClientCookie("ssj_displaymode", "ssj_displaymode", CookieAccess_Public);
 	gH_CookieUsageRepeat = RegClientCookie("ssj_displayrepeat", "ssj_displayrepeat", CookieAccess_Public);
@@ -160,6 +169,9 @@ public void OnPluginStart()
 	gH_CookieStrafeSync = RegClientCookie("ssj_strafesync", "ssj_strafesync", CookieAccess_Public);
 	gH_CookieDefaultsSet = RegClientCookie("ssj_defaults", "ssj_defaults", CookieAccess_Public);
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -230,6 +242,7 @@ public void OnClientCookiesCached(int client)
 	{
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		SetCookie(client, g_hCookieEnabled, true);
 		SetCookie(client, g_hCookieUsageMode, 6);
 		SetCookie(client, g_hCookieUsageRepeat, false);
@@ -245,6 +258,8 @@ public void OnClientCookiesCached(int client)
 =======
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 		SetCookie(client, gH_CookieEnabled, true);
 		SetCookie(client, gH_CookieUsageMode, 6);
 		SetCookie(client, gH_CookieUsageRepeat, false);
@@ -257,6 +272,9 @@ public void OnClientCookiesCached(int client)
 
 		SetCookie(client, gH_CookieDefaultsSet, true);
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -264,6 +282,7 @@ public void OnClientCookiesCached(int client)
 
 	GetClientCookie(client, gH_CookieEnabled, sCookie, 8);
 	gB_Enabled[client] = view_as<bool>(StringToInt(sCookie));
+<<<<<<< HEAD
 
 	GetClientCookie(client, gH_CookieUsageMode, sCookie, 8);
 	gI_UsageMode[client] = StringToInt(sCookie);
@@ -305,10 +324,37 @@ public void OnClientCookiesCached(int client)
 	GetClientCookie(client, gH_CookieStrafeSync, sCookie, 8);
 	gB_StrafeSync[client] = view_as<bool>(StringToInt(sCookie));
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
+
+	GetClientCookie(client, gH_CookieUsageMode, sCookie, 8);
+	gI_UsageMode[client] = StringToInt(sCookie);
+
+	GetClientCookie(client, gH_CookieUsageRepeat, sCookie, 8);
+	gB_UsageRepeat[client] = view_as<bool>(StringToInt(sCookie));
+
+	GetClientCookie(client, gH_CookieCurrentSpeed, sCookie, 8);
+	gB_CurrentSpeed[client] = view_as<bool>(StringToInt(sCookie));
+
+	GetClientCookie(client, gH_CookieFirstJump, sCookie, 8);
+	gB_FirstJump[client] = view_as<bool>(StringToInt(sCookie));
+
+	GetClientCookie(client, gH_CookieHeightDiff, sCookie, 8);
+	gB_HeightDiff[client] = view_as<bool>(StringToInt(sCookie));
+
+	GetClientCookie(client, gH_CookieGainStats, sCookie, 8);
+	gB_GainStats[client] = view_as<bool>(StringToInt(sCookie));
+
+	GetClientCookie(client, gH_CookieEfficiency, sCookie, 8);
+	gB_Efficiency[client] = view_as<bool>(StringToInt(sCookie));
+
+	GetClientCookie(client, gH_CookieStrafeSync, sCookie, 8);
+	gB_StrafeSync[client] = view_as<bool>(StringToInt(sCookie));
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 }
 
 public void OnClientPutInServer(int client)
 {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 	g_iJump[client] = 0;
@@ -325,6 +371,8 @@ public void OnClientPutInServer(int client)
 =======
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 	gI_Jump[client] = 0;
 	gI_StrafeTick[client] = 0;
 	gI_SyncedTick[client] = 0;
@@ -337,6 +385,9 @@ public void OnClientPutInServer(int client)
 	gI_StrafeCount[client] = 0;
 	gI_OldSSJTarget[client] = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -387,6 +438,7 @@ void UpdateStats(int client)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	g_fRawGain[client] = 0.0;
 	g_iTickCount[client] = 0;
 	g_iStrafeTick[client] = 0;
@@ -399,6 +451,8 @@ void UpdateStats(int client)
 =======
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 	gF_RawGain[client] = 0.0;
 	gI_StrafeTick[client] = 0;
 	gI_SyncedTick[client] = 0;
@@ -409,6 +463,9 @@ void UpdateStats(int client)
 	gF_Trajectory[client] = 0.0;
 	gF_TraveledDistance[client] = NULL_VECTOR;
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -469,7 +526,11 @@ Action ShowSSJMenu(int client, int item = 0)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	menu.AddItem("usage", (g_bEnabled[client]) ? "[x] Enabled":"[ ] Enabled");
+=======
+	menu.AddItem("usage", (gB_Enabled[client])? "[x] Enabled":"[ ] Enabled");
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 	menu.AddItem("usage", (gB_Enabled[client])? "[x] Enabled":"[ ] Enabled");
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -481,6 +542,7 @@ Action ShowSSJMenu(int client, int item = 0)
 	FormatEx(sMenu, 64, "[%d] Jump", gI_UsageMode[client]);
 
 	menu.AddItem("mode", sMenu);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 	menu.AddItem("repeat", (g_bUsageRepeat[client]) ? "[x] Repeat":"[ ] Repeat");
@@ -495,6 +557,8 @@ Action ShowSSJMenu(int client, int item = 0)
 =======
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 	menu.AddItem("repeat", (gB_UsageRepeat[client])? "[x] Repeat":"[ ] Repeat");
 	menu.AddItem("curspeed", (gB_CurrentSpeed[client])? "[x] Current speed":"[ ] Current speed");
 	menu.AddItem("firstjump", (gB_FirstJump[client])? "[x] First jump":"[ ] First jump");
@@ -503,6 +567,9 @@ Action ShowSSJMenu(int client, int item = 0)
 	menu.AddItem("efficiency", (gB_Efficiency[client])? "[x] Strafe efficiency":"[ ] Strafe efficiency");
 	menu.AddItem("sync", (gB_StrafeSync[client])? "[x] Synchronization":"[ ] Synchronization");
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -571,6 +638,7 @@ public int SSJ_MenuHandler(Menu menu, MenuAction action, int param1, int param2)
 			{
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				g_bTime[param1] = !g_bTime[param1];
 				SetCookie(param1, g_hCookieTime, g_bTime[param1]);
 			}
@@ -585,6 +653,10 @@ public int SSJ_MenuHandler(Menu menu, MenuAction action, int param1, int param2)
 			{
 				g_bStrafeSync[param1] = !g_bStrafeSync[param1];
 				SetCookie(param1, g_hCookieStrafeSync, g_bStrafeSync[param1]);
+=======
+				gB_StrafeSync[param1] = !gB_StrafeSync[param1];
+				SetCookie(param1, gH_CookieStrafeSync, gB_StrafeSync[param1]);
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 				gB_StrafeSync[param1] = !gB_StrafeSync[param1];
 				SetCookie(param1, gH_CookieStrafeSync, gB_StrafeSync[param1]);
@@ -615,8 +687,12 @@ void SSJ_GetStats(int client, float vel[3], float angles[3])
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	g_iStrafeTick[client]++;
 	g_iTickCount[client]++;
+=======
+	gI_StrafeTick[client]++;
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 	gI_StrafeTick[client]++;
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -713,6 +789,9 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 	if(gF_OldVelocity[client] > speed)
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
+=======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -726,6 +805,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		{
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			g_iJump[client] = 0;
 			g_iStrafeTick[client] = 0;
 			g_iSyncedTick[client] = 0;
@@ -736,6 +816,19 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		}
 
 		if ((buttons & IN_JUMP) > 0 && g_iTicksOnGround[client] == 1)
+=======
+			gI_Jump[client] = 0;
+			gI_StrafeTick[client] = 0;
+			gI_SyncedTick[client] = 0;
+			gF_RawGain[client] = 0.0;
+			gF_Trajectory[client] = 0.0;
+			gI_StrafeCount[client] = 0;
+			gF_SpeedLoss[client] = 0.0;
+			gF_TraveledDistance[client] = NULL_VECTOR;
+		}
+
+		if((buttons & IN_JUMP) > 0 && gI_TicksOnGround[client] == 1)
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 			gI_Jump[client] = 0;
 			gI_StrafeTick[client] = 0;
@@ -802,7 +895,11 @@ bool SSJ_PrintStats(int client, int target)
 	{
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (!g_bFirstJump[client] && g_iUsageMode[client] != 1)
+=======
+		if(!gB_FirstJump[client] && gI_UsageMode[client] != 1)
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 		if(!gB_FirstJump[client] && gI_UsageMode[client] != 1)
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -860,7 +957,11 @@ bool SSJ_PrintStats(int client, int target)
 	char sMessage[192];
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	FormatEx(sMessage, 192, "J: %s%i", gS_ChatStrings.sStyle, g_iJump[target]);
+=======
+	FormatEx(sMessage, 192, "J: %s%i", gS_ChatStrings.sVariable, gI_Jump[target]);
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 =======
 	FormatEx(sMessage, 192, "J: %s%i", gS_ChatStrings.sVariable, gI_Jump[target]);
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
@@ -876,6 +977,7 @@ bool SSJ_PrintStats(int client, int target)
 	if(gI_Jump[target] > 1)
 	{
 		if(gB_HeightDiff[client])
+<<<<<<< HEAD
 <<<<<<< HEAD
 		{
 <<<<<<< HEAD
@@ -901,10 +1003,18 @@ bool SSJ_PrintStats(int client, int target)
 
 		if(gB_Efficiency[client])
 =======
+=======
 		{
 			Format(sMessage, 192, "%s %s| H Δ: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(origin[2]) - RoundToFloor(gF_InitialHeight[target]));
 		}
 
+		if(gB_GainStats[client])
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
+		{
+			Format(sMessage, 192, "%s %s| H Δ: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(origin[2]) - RoundToFloor(gF_InitialHeight[target]));
+		}
+
+<<<<<<< HEAD
 		if(gB_GainStats[client])
 >>>>>>> parent of 2189617... Update shavit-ssj.sp
 		{
@@ -913,6 +1023,14 @@ bool SSJ_PrintStats(int client, int target)
 
 <<<<<<< HEAD
 		if(g_bTime[client])
+=======
+		if(gB_StrafeSync[client])
+		{
+			Format(sMessage, 192, "%s %s| Snc: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, 100.0 * gI_SyncedTick[target] / gI_StrafeTick[target]);
+		}
+
+		if(gB_Efficiency[client])
+>>>>>>> parent of 2189617... Update shavit-ssj.sp
 		{
 			float time = Shavit_GetClientTime(target);
 
