@@ -239,7 +239,7 @@ int GetHUDTarget(int client)
 {
 	int target = client;
 
-	if(IsClientObserver(client))
+	if(IsValidClientIndex(client))
 	{
 		int iObserverMode = GetEntProp(client, Prop_Send, "m_iObserverMode");
 
