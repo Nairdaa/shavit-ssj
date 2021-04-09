@@ -117,11 +117,6 @@ public void OnPluginStart()
 	gEV_Type = GetEngineVersion();
 }
 
-stock bool IsValidClientIndex(int client)
-{
-	return (0 < client <= MaxClients);
-}
-
 public void OnLibraryAdded(const char[] name)
 {
 	if(StrEqual(name, "shavit"))
