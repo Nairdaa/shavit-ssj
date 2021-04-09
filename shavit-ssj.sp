@@ -239,7 +239,7 @@ int GetHUDTarget(int client)
 {
 	int target = client;
 
-	if(IsValidClientIndex(client))
+	if(IsValidClient(client))
 	{
 		int iObserverMode = GetEntProp(client, Prop_Send, "m_iObserverMode");
 
@@ -247,7 +247,7 @@ int GetHUDTarget(int client)
 		{
 			int iTarget = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
 
-			if(IsValidClientIndex(iTarget))
+			if(IsValidClient(iTarget))
 			{
 				target = iTarget;
 			}
@@ -299,7 +299,7 @@ public void Player_Jump(Event event, const char[] name, bool dontBroadcast)
 			continue;
 		}
 
-		if(!IsValidClientIndex(i))
+		if(!IsValidClient(i))
 		{
 			continue;
 		}
