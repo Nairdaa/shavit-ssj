@@ -247,7 +247,7 @@ int GetHUDTarget(int client)
 		{
 			int iTarget = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
 
-			if(!IsFakeClient(iTarget))
+			if(IsValidClientIndex(iTarget))
 			{
 				target = iTarget;
 			}
@@ -299,7 +299,7 @@ public void Player_Jump(Event event, const char[] name, bool dontBroadcast)
 			continue;
 		}
 
-		if(!IsClientInGame(i))
+		if(!IsValidClientIndex(i))
 		{
 			continue;
 		}
