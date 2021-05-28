@@ -110,11 +110,17 @@ public void OnPluginStart()
 
 	if(g_bLate)
 	{
-		Shavit_OnChatConfigLoaded();
+		chatstrings_t chatstrings;
+		Shavit_OnChatConfigLoaded(chatstrings);
 	}
 
 	g_bShavit = LibraryExists("shavit");
 	gEV_Type = GetEngineVersion();
+}
+
+stock bool IsValidClientIndex(int client)
+{
+	return (0 < client <= MaxClients);
 }
 
 public void OnLibraryAdded(const char[] name)
@@ -234,7 +240,7 @@ int GetHUDTarget(int client)
 {
 	int target = client;
 
-	if(IsValidClient(client))
+	if(IsValidClientIndex(client))
 	{
 		int iObserverMode = GetEntProp(client, Prop_Send, "m_iObserverMode");
 
@@ -242,7 +248,7 @@ int GetHUDTarget(int client)
 		{
 			int iTarget = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
 
-			if(IsValidClient(iTarget))
+			if(IsValidClientIndex(iTarget))
 			{
 				target = iTarget;
 			}
@@ -294,7 +300,7 @@ public void Player_Jump(Event event, const char[] name, bool dontBroadcast)
 			continue;
 		}
 
-		if(!IsValidClient(i))
+		if(!IsValidClientIndex(i))
 		{
 			continue;
 		}
