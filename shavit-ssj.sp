@@ -110,8 +110,7 @@ public void OnPluginStart()
 
 	if(g_bLate)
 	{
-		chatstrings_t chatstrings;
-		Shavit_OnChatConfigLoaded(chatstrings);
+		Shavit_OnChatConfigLoaded();
 	}
 
 	g_bShavit = LibraryExists("shavit");
