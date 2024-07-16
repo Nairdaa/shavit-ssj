@@ -35,10 +35,10 @@ Handle g_hCookieDefaultsSet = null;
 
 bool g_bUsageRepeat[MAXPLAYERS + 1];
 bool g_bEnabled[MAXPLAYERS + 1] =  { true, ... };
-bool g_bCurrentSpeed[MAXPLAYERS + 1] =  { true, ... };
-bool g_bFirstJump[MAXPLAYERS + 1] =  { true, ... };
+bool g_bCurrentSpeed[MAXPLAYERS + 1] =	{ true, ... };
+bool g_bFirstJump[MAXPLAYERS + 1] =	 { true, ... };
 bool g_bHeightDiff[MAXPLAYERS + 1];
-bool g_bGainStats[MAXPLAYERS + 1] =  { true, ... };
+bool g_bGainStats[MAXPLAYERS + 1] =	 { true, ... };
 bool g_bEfficiency[MAXPLAYERS + 1];
 bool g_bTime[MAXPLAYERS + 1];
 bool g_bStrafeSync[MAXPLAYERS + 1];
@@ -228,6 +228,8 @@ public Action OnTouch(int client, int entity)
 	{
 		g_bTouchesWall[client] = true;
 	}
+	
+	return Plugin_Handled;
 }
 
 int GetHUDTarget(int client)
@@ -292,8 +294,6 @@ public void Player_Jump(Event event, const char[] name, bool dontBroadcast)
 		g_iJump[client] = Shavit_GetClientJumps(client);
 	}
 
-
-
 	//bool shouldUpdateStats = false;
 	//bool printedStats = false;
 	for (int i = 1; i <= MaxClients; i++)
@@ -335,7 +335,6 @@ Action ShowSSJMenu(int client, int item = 0)
 {
 	Menu menu = new Menu(SSJ_MenuHandler);
 	menu.SetTitle("Speed @ Sixth Jump\n ");
-
 	menu.AddItem("usage", (g_bEnabled[client]) ? "[x] Enabled":"[ ] Enabled");
 
 	char sMenu[64];
@@ -351,7 +350,6 @@ Action ShowSSJMenu(int client, int item = 0)
 	menu.AddItem("time", (g_bTime[client]) ? "[x] Time counter":"[ ] Time counter");
 	menu.AddItem("strafe", (g_bStrafeCount[client]) ? "[x] Strafe":"[ ] Strafe");
 	menu.AddItem("sync", (g_bStrafeSync[client]) ? "[x] Synchronization":"[ ] Synchronization");
-
 	menu.ExitButton = true;
 	menu.DisplayAt(client, item, 0);
 
@@ -434,7 +432,6 @@ public int SSJ_MenuHandler(Menu menu, MenuAction action, int param1, int param2)
 
 		ShowSSJMenu(param1, GetMenuSelectionPosition());
 	}
-
 	else if(action == MenuAction_End)
 	{
 		delete menu;
@@ -585,6 +582,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 	g_iButtonCache[client] = buttons;
 	g_fOldVelocity[client] = speed;
+
 	return Plugin_Continue;
 }
 
@@ -597,7 +595,6 @@ bool SSJ_PrintStats(int client, int target)
 			return false;
 		}
 	}
-
 	else if(g_bUsageRepeat[client])
 	{
 		if(g_iJump[target] % g_iUsageMode[client] != 0)
@@ -605,7 +602,6 @@ bool SSJ_PrintStats(int client, int target)
 			return false;
 		}
 	}
-
 	else if(g_iJump[target] != g_iUsageMode[client])
 	{
 		return false;
@@ -618,26 +614,34 @@ bool SSJ_PrintStats(int client, int target)
 	float origin[3];
 	GetClientAbsOrigin(target, origin);
 
-	float coeffsum = g_fRawGain[target];
-	coeffsum /= g_iStrafeTick[target];
-	coeffsum *= 100.0;
+	float coeffsum = 0.0;
+	if(g_iStrafeTick[target] > 0) 
+	{
+		coeffsum = g_fRawGain[target] / g_iStrafeTick[target] * 100.0;
+		//LogMessage("g_fRawGain[%d] = %.2f", target, g_fRawGain[target]);
+		//LogMessage("g_iStrafeTick[%d] = %d", target, g_iStrafeTick[target]);
+		//LogMessage("coeffsum after division and multiplication = %.2f", coeffsum);
+	}
+	else
+	{
+		//LogMessage("Warning: g_iStrafeTick[%d] is zero", target);
+	}
 
 	float distance = GetVectorLength(g_fTraveledDistance[target]);
-
 	if(distance > g_fTrajectory[target])
 	{
 		distance = g_fTrajectory[target];
 	}
 
 	float efficiency = 0.0;
-
-	if(distance > 0.0)
+	if(distance > 0.0 && g_fTrajectory[target] > 0.0)
 	{
 		efficiency = coeffsum * distance / g_fTrajectory[target];
 	}
 
 	coeffsum = RoundToFloor(coeffsum * 100.0 + 0.5) / 100.0;
 	efficiency = RoundToFloor(efficiency * 100.0 + 0.5) / 100.0;
+	//LogMessage("coeffsum after rounding = %.2f", coeffsum);
 
 	char sMessage[192];
 	FormatEx(sMessage, 192, "J: %s%i", gS_ChatStrings.sVariable, g_iJump[target]);
@@ -685,7 +689,6 @@ bool SSJ_PrintStats(int client, int target)
 	}
 
 	PrintToClient(client, "%s", sMessage);
-
 	return true;
 }
 
