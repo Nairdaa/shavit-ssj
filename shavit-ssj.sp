@@ -13,7 +13,7 @@ public Plugin myinfo =
 	name = "SSJ: Advanced",
 	author = "AlkATraZ",
 	description = "Strafe gains/efficiency etc. // Edited by Nairda to work with shavit's timer",
-	version = SHAVIT_VERSION,
+	version = "0.1",
 	url = "https://forums.alliedmods.net/showthread.php?t=287039"
 }
 
