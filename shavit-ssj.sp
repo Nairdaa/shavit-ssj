@@ -654,38 +654,40 @@ bool SSJ_PrintStats(int client, int target)
 		Format(sMessage, 192, "%s %s| Spd: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(GetVectorLength(velocity)));
 	}
 
-	if(g_iJump[target] > 1)
+	if (g_iJump[target] > 0)
 	{
-		if(g_bHeightDiff[client])
+		if (g_bHeightDiff[client])
 		{
 			Format(sMessage, 192, "%s %s| H Δ: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(origin[2]) - RoundToFloor(g_fInitialHeight[target]));
 		}
 
-		if(g_bGainStats[client])
+		if (g_bGainStats[client])
 		{
 			Format(sMessage, 192, "%s %s| Gn: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, coeffsum);
 		}
 
-		if(g_bStrafeSync[client])
+		if (g_bStrafeSync[client])
 		{
 			Format(sMessage, 192, "%s %s| Snc: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, 100.0 * g_iSyncedTick[target] / g_iStrafeTick[target]);
 		}
 
-		if(g_bEfficiency[client])
+		if (g_bEfficiency[client])
 		{
 			Format(sMessage, 192, "%s %s| Eff: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, efficiency);
 		}
 
-		if(g_bStrafeCount[client])
+		if (g_bStrafeCount[client])
 		{
 			Format(sMessage, 192, "%s %s| Strf: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, g_iStrafeCount[target]);
 		}
 
-		if(g_bTime[client])
+		if (g_bTime[client])
 		{
 			FormatSeconds(time, sTime, 32, true);
 			Format(sMessage, 192, "%s %s| T: %s%s", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, sTime);
 		}
+
+		Format(sMessage, 192, "%s %s| J: %i", sMessage, gS_ChatStrings.sText, g_iJump[target]);
 	}
 
 	PrintToClient(client, "%s", sMessage);
