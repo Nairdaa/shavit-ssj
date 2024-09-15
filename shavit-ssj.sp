@@ -588,21 +588,21 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 bool SSJ_PrintStats(int client, int target)
 {
-	if(g_iJump[target] == 1)
+	if (g_iJump[target] == 1)
 	{
-		if(!g_bFirstJump[client] && g_iUsageMode[client] != 1)
+		if (!g_bFirstJump[client] && g_iUsageMode[client] != 1)
 		{
 			return false;
 		}
 	}
-	else if(g_bUsageRepeat[client])
+	else if (g_bUsageRepeat[client])
 	{
-		if(g_iJump[target] % g_iUsageMode[client] != 0)
+		if (g_iJump[target] % g_iUsageMode[client] != 0)
 		{
 			return false;
 		}
 	}
-	else if(g_iJump[target] != g_iUsageMode[client])
+	else if (g_iJump[target] != g_iUsageMode[client])
 	{
 		return false;
 	}
@@ -615,79 +615,71 @@ bool SSJ_PrintStats(int client, int target)
 	GetClientAbsOrigin(target, origin);
 
 	float coeffsum = 0.0;
-	if(g_iStrafeTick[target] > 0) 
+	if (g_iStrafeTick[target] > 0)
 	{
 		coeffsum = g_fRawGain[target] / g_iStrafeTick[target] * 100.0;
-		//LogMessage("g_fRawGain[%d] = %.2f", target, g_fRawGain[target]);
-		//LogMessage("g_iStrafeTick[%d] = %d", target, g_iStrafeTick[target]);
-		//LogMessage("coeffsum after division and multiplication = %.2f", coeffsum);
-	}
-	else
-	{
-		//LogMessage("Warning: g_iStrafeTick[%d] is zero", target);
 	}
 
 	float distance = GetVectorLength(g_fTraveledDistance[target]);
-	if(distance > g_fTrajectory[target])
+	if (distance > g_fTrajectory[target])
 	{
 		distance = g_fTrajectory[target];
 	}
 
 	float efficiency = 0.0;
-	if(distance > 0.0 && g_fTrajectory[target] > 0.0)
+	if (distance > 0.0 && g_fTrajectory[target] > 0.0)
 	{
 		efficiency = coeffsum * distance / g_fTrajectory[target];
 	}
 
 	coeffsum = RoundToFloor(coeffsum * 100.0 + 0.5) / 100.0;
 	efficiency = RoundToFloor(efficiency * 100.0 + 0.5) / 100.0;
-	//LogMessage("coeffsum after rounding = %.2f", coeffsum);
 
 	char sMessage[192];
-	FormatEx(sMessage, 192, "J: %s%i", gS_ChatStrings.sVariable, g_iJump[target]);
+	FormatEx(sMessage, sizeof(sMessage), "J: %s%i", gS_ChatStrings.sVariable, g_iJump[target]);
 
 	float time = Shavit_GetClientTime(target);
 	char sTime[32];
 
-	if(g_bCurrentSpeed[client])
+	if (g_bCurrentSpeed[client])
 	{
-		Format(sMessage, 192, "%s %s| Spd: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(GetVectorLength(velocity)));
+		Format(sMessage, sizeof(sMessage), "%s %s| Spd: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(GetVectorLength(velocity)));
 	}
 
 	if (g_iJump[target] > 0)
 	{
 		if (g_bHeightDiff[client])
 		{
-			Format(sMessage, 192, "%s %s| H Δ: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(origin[2]) - RoundToFloor(g_fInitialHeight[target]));
+			Format(sMessage, sizeof(sMessage), "%s %s| H Δ: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(origin[2]) - RoundToFloor(g_fInitialHeight[target]));
 		}
 
 		if (g_bGainStats[client])
 		{
-			Format(sMessage, 192, "%s %s| Gn: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, coeffsum);
+			Format(sMessage, sizeof(sMessage), "%s %s| Gn: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, coeffsum);
 		}
 
 		if (g_bStrafeSync[client])
 		{
-			Format(sMessage, 192, "%s %s| Snc: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, 100.0 * g_iSyncedTick[target] / g_iStrafeTick[target]);
+			Format(sMessage, sizeof(sMessage), "%s %s| Snc: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, 100.0 * g_iSyncedTick[target] / g_iStrafeTick[target]);
 		}
 
 		if (g_bEfficiency[client])
 		{
-			Format(sMessage, 192, "%s %s| Eff: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, efficiency);
+			Format(sMessage, sizeof(sMessage), "%s %s| Eff: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, efficiency);
 		}
 
 		if (g_bStrafeCount[client])
 		{
-			Format(sMessage, 192, "%s %s| Strf: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, g_iStrafeCount[target]);
+			Format(sMessage, sizeof(sMessage), "%s %s| Strf: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, g_iStrafeCount[target]);
 		}
 
 		if (g_bTime[client])
 		{
-			FormatSeconds(time, sTime, 32, true);
-			Format(sMessage, 192, "%s %s| T: %s%s", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, sTime);
+			FormatSeconds(time, sTime, sizeof(sTime), true);
+			Format(sMessage, sizeof(sMessage), "%s %s| T: %s%s", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, sTime);
 		}
 
-		Format(sMessage, 192, "%s %s| J: %i", sMessage, gS_ChatStrings.sText, g_iJump[target]);
+		Format(sMessage, sizeof(sMessage), "%s %s| J: %i", sMessage, gS_ChatStrings.sText, g_iJump[target]);
 	}
 
 	PrintToClient(client, "%s", sMessage);
@@ -697,17 +689,16 @@ bool SSJ_PrintStats(int client, int target)
 void PrintToClient(int client, const char[] message, any...)
 {
 	char buffer[300];
-	VFormat(buffer, 300, message, 3);
+	VFormat(buffer, sizeof(buffer), message, 3);
 
-	if(g_bShavit)
+	if (g_bShavit)
 	{
 		Shavit_StopChatSound();
 		Shavit_PrintToChat(client, "%s", buffer); // Thank you, GAMMACASE
 	}
-
 	else
 	{
-		PrintToChat(client, "%s%s%s%s", (gEV_Type == Engine_CSGO) ? " ":"", gS_ChatStrings.sPrefix, gS_ChatStrings.sText, buffer);
+		PrintToChat(client, "%s%s%s%s", (gEV_Type == Engine_CSGO) ? " " : "", gS_ChatStrings.sPrefix, gS_ChatStrings.sText, buffer);
 	}
 }
 
