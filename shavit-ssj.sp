@@ -591,21 +591,15 @@ bool SSJ_PrintStats(int client, int target)
 	if (g_iJump[target] == 1)
 	{
 		if (!g_bFirstJump[client] && g_iUsageMode[client] != 1)
-		{
 			return false;
-		}
 	}
 	else if (g_bUsageRepeat[client])
 	{
 		if (g_iJump[target] % g_iUsageMode[client] != 0)
-		{
 			return false;
-		}
 	}
 	else if (g_iJump[target] != g_iUsageMode[client])
-	{
 		return false;
-	}
 
 	float velocity[3];
 	GetEntPropVector(target, Prop_Data, "m_vecAbsVelocity", velocity);
@@ -616,21 +610,15 @@ bool SSJ_PrintStats(int client, int target)
 
 	float coeffsum = 0.0;
 	if (g_iStrafeTick[target] > 0)
-	{
 		coeffsum = g_fRawGain[target] / g_iStrafeTick[target] * 100.0;
-	}
 
 	float distance = GetVectorLength(g_fTraveledDistance[target]);
 	if (distance > g_fTrajectory[target])
-	{
 		distance = g_fTrajectory[target];
-	}
 
 	float efficiency = 0.0;
 	if (distance > 0.0 && g_fTrajectory[target] > 0.0)
-	{
 		efficiency = coeffsum * distance / g_fTrajectory[target];
-	}
 
 	coeffsum = RoundToFloor(coeffsum * 100.0 + 0.5) / 100.0;
 	efficiency = RoundToFloor(efficiency * 100.0 + 0.5) / 100.0;
@@ -642,36 +630,24 @@ bool SSJ_PrintStats(int client, int target)
 	char sTime[32];
 
 	if (g_bCurrentSpeed[client])
-	{
 		Format(sMessage, sizeof(sMessage), "%s %s| Spd: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(GetVectorLength(velocity)));
-	}
 
 	if (g_iJump[target] > 0)
 	{
 		if (g_bHeightDiff[client])
-		{
 			Format(sMessage, sizeof(sMessage), "%s %s| H Δ: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, RoundToFloor(origin[2]) - RoundToFloor(g_fInitialHeight[target]));
-		}
 
 		if (g_bGainStats[client])
-		{
 			Format(sMessage, sizeof(sMessage), "%s %s| Gn: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, coeffsum);
-		}
 
 		if (g_bStrafeSync[client])
-		{
 			Format(sMessage, sizeof(sMessage), "%s %s| Snc: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, 100.0 * g_iSyncedTick[target] / g_iStrafeTick[target]);
-		}
 
 		if (g_bEfficiency[client])
-		{
 			Format(sMessage, sizeof(sMessage), "%s %s| Eff: %s%.2f%%", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, efficiency);
-		}
 
 		if (g_bStrafeCount[client])
-		{
 			Format(sMessage, sizeof(sMessage), "%s %s| Strf: %s%i", sMessage, gS_ChatStrings.sText, gS_ChatStrings.sVariable, g_iStrafeCount[target]);
-		}
 
 		if (g_bTime[client])
 		{
